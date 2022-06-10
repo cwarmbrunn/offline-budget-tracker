@@ -12,6 +12,8 @@ Making updates to an existing budget tracker application to allow for offline ac
 
 **Live Site:**
 
+Check out the deployed site [here](https://secret-springs-00862.herokuapp.com)!
+
 ---
 
 **Technology Used:**
