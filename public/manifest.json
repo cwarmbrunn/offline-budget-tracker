@@ -1,8 +1,9 @@
 { 
     "name": "Budget Tracker",
-    "short_name": "Budgeting",
+    "short_name": "Budget App",
+    "orientation": "portrait",
     "display": "standalone",
-    "start_url": "../index.html",
+    "start_url": ".",
     "background_color": "#01579b",
     "theme_color": "#ffffff",
 
