@@ -3,7 +3,7 @@ let db;
 
 // Establish a connection to IndexedDB database called "budget_tracker"
 // and set it to version 1
-const request = indexedDB.open("budget_tracker", 1);
+const request = indexedDB.open("budget", 1);
 
 // This event will emit if the database version changes
 request.onupgradeneeded = function (event) {
@@ -13,18 +13,18 @@ request.onupgradeneeded = function (event) {
   // Create an object store called 'budget'
   // Set it to have an auto-incrementing primary key
   db.createObjectStore("new_budget", { autoIncrement: true });
+};
 
-  // Upon a successful connection
-  request.onsuccess = function (event) {
-    // When database is successfully created with its object store
-    db = event.target.result;
+// Upon a successful connection
+request.onsuccess = function (event) {
+  // When database is successfully created with its object store
+  db = event.target.result;
 
-    // Check if the application is online - if yes, then run the below function
-    // This will send all local database data to API
-    if (navigator.onLine) {
-      uploadBudget();
-    }
-  };
+  // Check if the application is online - if yes, then run the below function
+  // This will send all local database data to API
+  if (navigator.onLine) {
+    uploadBudget();
+  }
 };
 
 request.onerror = function (event) {
@@ -52,11 +52,11 @@ function uploadBudget() {
   const store = transaction.objectStore("new_budget");
 
   // Get all records from store and assign it to a variable
-  const getEverything = store.getEverything();
+  const getEverything = store.getAll();
 
   getEverything.onsuccess = function () {
     if (getEverything.result.length > 0) {
-      fetch("/api/transaction/bulk", {
+      fetch("/api/transaction", {
         method: "POST",
         body: JSON.stringify(getEverything.result),
         headers: {
