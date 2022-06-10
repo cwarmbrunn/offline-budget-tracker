@@ -5,7 +5,6 @@ const DATA_CACHE_NAME = "budget-data-cache";
 // Set up files to cache
 
 const FILES_TO_CACHE = [
-  "/",
   // HTML START //
   "/index.html",
   // HTML END //
