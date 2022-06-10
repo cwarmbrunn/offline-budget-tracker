@@ -12,7 +12,7 @@ request.onupgradeneeded = function (event) {
   const db = event.target.result;
   // Create an object store called 'budget'
   // Set it to have an auto-incrementing primary key
-  db.createObjectStore("budget", { autoIncrement: true });
+  db.createObjectStore("new_budget", { autoIncrement: true });
 
   // Upon a successful connection
   request.onsuccess = function (event) {
@@ -21,15 +21,15 @@ request.onupgradeneeded = function (event) {
 
     // Check if the application is online - if yes, then run the below function
     // This will send all local database data to API
-
-    // TODO: This hasn't been created yet - but it will be soon, commenting out for now
-    // uploadBudget();
+    if (navigator.onLine) {
+      uploadBudget();
+    }
   };
 };
 
 request.onerror = function (event) {
   // Log the error here
-  console.log(event.target.errorCode);
+  console.log("Error:" + event.target.errorCode);
 };
 
 /// This function will be executed if an attempt is made to submit and there's no internet connection
@@ -42,4 +42,28 @@ function saveRecord(record) {
 
   // Add record to store with the add method
   budgetObjectStore.add(record);
+}
+
+function uploadBudget() {
+  // Open a new transaction on the database
+  const transaction = db.transaction(["new_budget"], "readwrite");
+
+  // Access object store
+  const store = transaction.objectStore("new_budget");
+
+  // Get all records from store and assign it to a variable
+  const getEverything = store.getEverything();
+
+  getEverything.onsuccess = function () {
+    if (getEverything.result.length > 0) {
+      fetch("/api/transaction/bulk", {
+        method: "POST",
+        body: JSON.stringify(getEverything.result),
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+      });
+    }
+  };
 }
