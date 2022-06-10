@@ -16,8 +16,11 @@ Making updates to an existing budget tracker application to allow for offline ac
 **Technology Used:**
 
 - Mongoose
+- JavaScript
 - HTML
 - CSS
+- Morgan
+- Express.js
 
 ---
 
