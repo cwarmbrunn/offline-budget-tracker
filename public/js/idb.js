@@ -63,7 +63,30 @@ function uploadBudget() {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
         },
-      });
+      })
+        .then((response) => response.json())
+        .then(() => {
+          // Delete records if this doesn't work!
+
+          // Set up the transaction variable
+          const transaction = db.transaction(["new_budget"], "readwrite");
+
+          // Set up the store variable
+          const store = transaction.objectStore("new_budget");
+
+          // Clear the store
+          store.clear();
+        });
     }
   };
 }
+function deleteInProgress() {
+  // Set up transaction variable
+  const transaction = db.transaction(["new_budget"], "readwrite");
+
+  // Set up the store variable
+  const store = transaction.objectStore("new_budget");
+  store.clear();
+}
+
+window.addEventListener("online", uploadBudget);
