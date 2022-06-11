@@ -30,3 +30,7 @@ Check out the deployed site [here](https://secret-springs-00862.herokuapp.com)!
 **Installation:**
 
 Use _npm i_ to install npm packages.
+
+**Screenshot:**
+
+![Screenshot of the budget tracking app  with various expenses and deposts](./screenshot/screenshot.jpg)
